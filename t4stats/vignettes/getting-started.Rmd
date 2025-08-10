@@ -1,0 +1,105 @@
+---
+title: "Getting Started with t4stats"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with t4stats}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+  knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Overview
+
+`t4stats` computes **four** statistics from a numeric vector:
+
+-   **Function A (C++)**: Sample variance (unbiased, divides by *n − 1*)
+-   **Function B (C++)**: Arithmetic mean
+-   **Mean (R)**: `mean(x)`
+-   **Variance (R)**: `stats::var(x)`
+
+A single helper, `run_all(x)`, prints all four results and returns them in a list.
+
+```{r}
+   library(t4stats)
+
+```
+
+## Basic Example
+
+```{r, eval=FALSE}
+   x <- c(1, 2, 3, 4, 5)
+   out <- run_all(x)   # prints 4 lines and returns a list invisibly
+   str(out)
+```
+
+## You should see that
+
+-   `out$A` equals `out$Variance` (both are sample variance)
+-   `out$B` equals `out$Mean`
+
+```{r, eval=FALSE}
+   all.equal(out$A, var(x))
+   all.equal(out$B, mean(x))
+```
+
+## Using your own data
+
+If you ship a CSV with the package, put it under `inst/extdata/`. Then access it like this:
+
+```{r, eval=FALSE}
+   csv_path <- system.file("extdata", "Data501_Dataset_Assignment1.csv", package = "t4stats")
+   dat <- read.csv(csv_path, header = TRUE)
+   x <- as.numeric(dat[[1]]) + 563      # example offset from the assignment
+   run_all(x)
+```
+
+> **Tip:** Don’t keep data at the top level of the package—`R CMD check` will note it. Prefer storing it under `inst/extdata/`.
+
+## What each function does
+
+```{r, eval=FALSE}
+   mean_R(1:5)       # R mean
+   variance_R(1:5)   # R sample variance
+
+   # C++ implementations are called inside run_all(), but are also available:
+   t4stats:::my_function_A(1:5)  # variance in C++
+   t4stats:::my_function_B(1:5)  # mean in C++
+```
+
+
+-   `my_function_A()` uses the unbiased sample variance formula:\
+    ∑(xᵢ − x̄)² / (n − 1)\
+-   `my_function_B()` computes the arithmetic mean:\
+    (1 / n) ∑ xᵢ
+
+## Reproducibility notes
+
+-   Adding a constant to all values changes the mean but not the variance.\
+-   `run_all()` prints the four lines in the assignment’s format:
+    -   “Function A Results: …”\
+    -   “Function B Results: …”\
+    -   “Mean: …”\
+    -   “Variance: …”
+
+## Installation (from source)
+
+```{r, eval=FALSE}
+   # from the package root
+   devtools::document()
+   devtools::build()
+   devtools::install()
+   library(t4stats)
+```
+
+
+## Session info
+
+```{r, eval=FALSE}
+   sessionInfo()
+```

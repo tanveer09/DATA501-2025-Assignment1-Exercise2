@@ -1,0 +1,20 @@
+Package: t4stats
+Title: Demonstrates Mean and Variance calculated using C++ and R funtions
+Version: 0.0.0.9000
+Authors@R: 
+    person("Tanveer", "Singh", , "k.tanveer.singh@gmail.com", role = c("aut", "cre"))
+Description: Demonstrates Mean and Variance calculated via C++ (Function A and Function B) and via R (mean and variance), and prints all four results.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+LinkingTo: 
+    Rcpp
+Imports: 
+    Rcpp
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
