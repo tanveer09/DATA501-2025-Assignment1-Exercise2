@@ -1,0 +1,16 @@
+# _pkgdown.yml
+package: t4stats
+title: "t4stats: R + C++ Statistics Package"
+url: https://tanveer09.github.io/t4stats
+
+navbar:
+  structure:
+    left:  [home, reference, articles, news]
+    right: [github]
+  components:
+    github:
+      icon: fab fa-github
+      href: https://github.com/tanveer09/t4stats
+
+template:
+  bootstrap: 5
